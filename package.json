@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
-    "tailwindcss": "^4.0.6"
+    "express": "^4.21.2",
+    "tailwindcss": "^4.0.6",
+    "start": "node server.js"
   }
 }
