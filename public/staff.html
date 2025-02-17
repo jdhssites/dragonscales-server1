@@ -403,7 +403,35 @@ function changeTheme() {
     const loginContainer = document.getElementById('login-container');
   
     loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    console.log("Attempting login with:", username, password);
+    fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Login response data:", data);
+        if (data.success) {
+            // Save login state and token locally (you can later use token in requests)
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('token', data.token);
+            loginContainer.classList.add('hidden');
+        } else {
+            alert('Invalid username or password');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+        e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       console.log("Attempting login with:", username, password);
@@ -427,11 +455,6 @@ function changeTheme() {
           alert('Invalid username or password');
         }
       })
-      .catch(error => {
-        console.error("Login error:", error);
-        alert('Login failed');
-      });
-    });
   
     // Hide login container if already logged in
     if (localStorage.getItem('loggedIn') === 'true') {
