@@ -29,13 +29,12 @@ app.post('/api/login', (req, res) => {
   if (username === 'admin' && password === 'password') {
     const token = 'dummy-token-123';
     console.log("Sending success response");
-    res.json({ success: true, token });
+    return res.json({ success: true, token });
   } else {
     console.log("Sending failure response");
-    res.status(401).json({ success: false, message: 'Invalid credentials' });
+    return res.status(401).json({ success: false, message: 'Invalid credentials' });
   }
 });
-
 
 
 /* ---------------------------
