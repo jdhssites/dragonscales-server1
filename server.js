@@ -24,17 +24,18 @@ if (!fs.existsSync(storageFile)) {
    API Endpoint: Login
 --------------------------- */
 app.post('/api/login', (req, res) => {
-  const username = req.body.username ? req.body.username.trim() : '';
-  const password = req.body.password ? req.body.password.trim() : '';
-  console.log("Received login credentials:", username, password);
+  const { username, password } = req.body;
+  console.log("Received credentials:", username, password);
   if (username === 'admin' && password === 'password') {
     const token = 'dummy-token-123';
+    console.log("Sending success response");
     res.json({ success: true, token });
   } else {
-    console.log("Invalid credentials provided");
+    console.log("Sending failure response");
     res.status(401).json({ success: false, message: 'Invalid credentials' });
   }
 });
+
 
 
 /* ---------------------------
