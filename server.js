@@ -4,36 +4,25 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Path to our storage file (for simplicity, we use a JSON file)
-const storageFile = path.join(__dirname, 'storage.json');
-
-// Middleware to parse JSON bodies and serve static files from "public"
 app.use(express.json());
 app.use(express.static('public'));
 
-// Ensure the storage file exists
-if (!fs.existsSync(storageFile)) {
-  fs.writeFileSync(storageFile, JSON.stringify({
-    preferences: {},
-    staffContent: '',
-    sessions: {} // Simple object to store login sessions by token
-  }, null, 2));
-}
-
-/* ---------------------------
-   API Endpoint: Login
---------------------------- */
+// Dummy login endpoint
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
   console.log("Received credentials:", username, password);
-  if (username === 'admin' && password === 'password') {
+  if (username.trim() === 'admin' && password.trim() === 'password') {
     const token = 'dummy-token-123';
-    console.log("Sending success response");
+    console.log("Login success. Sending token.");
     return res.json({ success: true, token });
   } else {
-    console.log("Sending failure response");
+    console.log("Invalid credentials provided.");
     return res.status(401).json({ success: false, message: 'Invalid credentials' });
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 
